@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+<table border="1">
+<tbody>
+  {% for i in links %}
+  <tr>
+    <td>
+        {{i}}
+    </td>
+    <td>
+        <form action="" name = "articles" method="post">
+            <button name="number" value="{{i}}" type="submit">Link {{i}}</button>
+        </form>
+    </td>
+ </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+{% endblock %}
