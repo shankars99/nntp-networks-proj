@@ -1,0 +1,14 @@
+{
+    "cSpell.ignoreWords": [
+        "af",
+        "af inet",
+        "inet"
+    ],
+
+    "python.autoComplete.extraPaths": [
+        "./client/pyScripts",
+        "./server/pyScripts",
+    ],
+
+}
+
