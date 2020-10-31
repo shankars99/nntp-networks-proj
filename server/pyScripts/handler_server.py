@@ -30,6 +30,18 @@ def getArticleNum( conn , telnet):
 
     return data
 
+def sendStatus(conn, data):
+    status = ""
+    code = 200
+
+    if len(data) > 0:
+        status = "\n[200] Successful"
+    else:
+        status = "\n[400] Failed"
+        code = 400
+    data = bytes(status, "utf-8")
+    conn.sendall(data)
+    return code
 
 def sendArticle(conn, article_num):
     with open('../articles/article/' + str(article_num) + ".txt", 'r') as data:
@@ -47,6 +59,7 @@ def sendAnnotation( conn, article_num ):
 
 def sendTags(conn, tags):
     tags = str(tags)
+    print(tags)
     sendData(conn, tags)
 
 

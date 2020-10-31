@@ -1,7 +1,7 @@
 import os
 
 def showOption():
-    print("1.Request article number\n2.Request article by tags\n-1.Exit")
+    print("10.Request article number\n14.Request article by tags\n22.List\n-1.Exit")
 
 def getOption():
     print();
@@ -16,6 +16,10 @@ def getSize():
 
     return width
 
+def getStatus(sock):
+    status = sock.recv(1024).decode("utf-8")
+    print(status)
+    return status[2:5]
 
 def display(string, width):
     print("\n" + string.center(width))
@@ -57,24 +61,33 @@ def selectTags(tags):
     while name != "-1":
         if name not in tags:
             print("Incorrect tag entered")
-            continue
+            break
         if name not in tag:
             tag.append(name)
         name = input("Enter the names of tags:")
 
     return tag
 
-def getArticleIDByTags( sock, tags ):
+def reqArticleIDByTags( sock, tags ):
     sendData(sock, tags)
 
 def getArticleByTags( sock, tags, width ):
-    n = int(len(tags)/5)
-    print("\n----------------------------------------------------\----------------------------------------------------\n")
 
-    for id in range(n):
-        reqArticle(sock, tags[id])
-        getArticle(sock, width)
-        getArticle(sock, width)
+    if int(getStatus(sock)) < 300:
         print("\n----------------------------------------------------\----------------------------------------------------\n")
 
+        n = int(len(tags)/5)
+
+        for id in range(n):
+            reqArticle(sock, tags[id])
+            getArticle(sock, width)
+            getArticle(sock, width)
+            print("\n----------------------------------------------------\----------------------------------------------------\n")
+
+    return
+
+
+def showArticleIDByTags(sock, tags):
+    if int(getStatus(sock)) < 300:
+        print("\nTHE LIST ARTICLES ARE:" + tags)
     return
