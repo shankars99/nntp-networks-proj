@@ -1,2 +1,4 @@
 .vscode/
-__pycache__
+__pycache__/
+client/pyScripts/__pycache__/
+server/pyScripts/__pycache__/

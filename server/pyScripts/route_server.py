@@ -16,7 +16,8 @@ def route(conn, option, telnet):
         tags = getListOfTags(conn)
         idList = getIDList(tags)
         sendTags( conn, idList)
-        sendArticlesByTag( conn, idList)
+        sendStatus(conn, tags)
+        sendArticlesByTag(conn, idList)
 
     elif option == 22:
         tags = readTags()

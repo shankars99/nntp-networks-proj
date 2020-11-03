@@ -113,3 +113,14 @@ def sendArticlesByTag(conn, idList):
         sendArticle(conn, id)
 
     return
+
+def findArticle(article_num):
+    files = os.listdir("../articles/annotation")
+
+    for file in files:
+        with open('../articles/annotation/' + file, 'r') as data:
+            x = json.loads(data.read(), object_hook=lambda d: SimpleNamespace(**d))
+            if x.number == article_num:
+                return 200
+
+    return ""
