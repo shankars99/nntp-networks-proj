@@ -19,7 +19,6 @@ def sendData(conn, data):
     annotation = bytes(data, "utf-8")
     conn.sendall(annotation)
 
-
 def getArticleNum( conn , telnet):
     data = conn.recv(1024).decode()
 
@@ -124,3 +123,34 @@ def findArticle(article_num):
                 return 200
 
     return ""
+
+def checkAuth(conn, tags):
+    data = pickle.load(open('../data/auth.p', 'rb'))
+
+    usrname = tags[:tags.find(':')]
+    pwd = tags[tags.find(':') + 1:]
+
+    if usrname not in data or data[usrname] != pwd:
+        return sendStatus(conn, "")
+    else:
+        return sendStatus(conn, "200")
+
+
+def getAnnotation(sock):
+    article = sock.recv(1024).decode("utf-8")
+    f = open("../articles/raw-article/test-1.json", "w")
+    f.write(article)
+    f.close()
+    #display(article)
+
+
+def getArticle(sock):
+    article = sock.recv(1024).decode("utf-8")
+    f = open("../articles/raw-article/test-1.txt", "w")
+    f.write(article)
+    f.close()
+    #display(article)
+
+
+def display(string):
+    print("\n" + string)

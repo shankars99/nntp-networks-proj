@@ -27,6 +27,14 @@ def route(conn, option, telnet):
         sendTags(conn, idList)
         sendStatus(conn, tags)
 
+    elif option == 30:
+        tags = getListOfTags(conn)
+        status = checkAuth(conn, tags)
+        if status > int(300):
+            return
+        getAnnotation(conn)
+        getArticle(conn)
+
     elif option == -1:
         conn.close()
         print("Quitting")

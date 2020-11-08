@@ -29,6 +29,15 @@ def route(sock, option, SIZE):
         tags = getTags(sock)
         showArticleIDByTags(sock, tags)
 
+    elif option == 30:
+        loginDet = getLogin()
+        reqArticleIDByTags(sock, loginDet)
+        if int(getStatus(sock)) > 300:
+            return
+        article_num = getArticleNum()
+        sendAnnotation(sock, article_num)
+        sendArticle(sock, article_num)
+
     elif option == -1:
         sock.close()
         print("Closing Connection and Exitting")

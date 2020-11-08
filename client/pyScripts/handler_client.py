@@ -1,7 +1,7 @@
 import os
 
 def showOption():
-    print("10.Request article number\n14.Request article by tags\n22.List\n-1.Exit")
+    print("10.Request article number\n14.Request article by tags\n22.List\n30.WhoamI\n-1.Exit")
 
 def getOption():
     print();
@@ -91,3 +91,25 @@ def showArticleIDByTags(sock, tags):
     if int(getStatus(sock)) < 300:
         print("\nTHE LIST ARTICLES ARE:" + tags)
     return
+
+def getLogin():
+    print();
+    usrname = input("Enter your usrname:")
+    pwd = input("Enter your pwd:")
+
+    loginDet = usrname +":"+ pwd
+    return loginDet
+
+
+def sendArticle(conn, article_num):
+    with open('../data/article/' + str(article_num) + ".txt", 'r') as data:
+        data = data.read()
+
+    sendData(conn, data)
+
+
+def sendAnnotation(conn, article_num):
+    with open('../data/annotation/' + str(article_num) + ".json", 'r') as data:
+        data = data.read()
+
+    sendData(conn, data)
