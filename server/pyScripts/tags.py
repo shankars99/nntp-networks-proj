@@ -3,9 +3,9 @@ import os
 import pickle
 from types import SimpleNamespace
 
-data = pickle.load(open('../data/auth.p', 'rb'))
+data = pickle.load(open('server/data/auth.p', 'rb'))
 
 #data["hi"] = "welcome"
 
-#pickle.dump(data, open('../data/auth.p', 'wb'))
+#pickle.dump(data, open('server/data/auth.p', 'wb'))
 print(data["admin"])

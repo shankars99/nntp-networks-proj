@@ -102,14 +102,14 @@ def getLogin():
 
 
 def sendArticle(conn, article_num):
-    with open('../data/article/' + str(article_num) + ".txt", 'r') as data:
+    with open('client/data/article/' + str(article_num) + ".txt", 'r') as data:
         data = data.read()
 
     sendData(conn, data)
 
 
 def sendAnnotation(conn, article_num):
-    with open('../data/annotation/' + str(article_num) + ".json", 'r') as data:
+    with open('client/data/annotation/' + str(article_num) + ".json", 'r') as data:
         data = data.read()
 
     sendData(conn, data)

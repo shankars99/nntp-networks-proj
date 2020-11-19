@@ -17,6 +17,7 @@ def getOption(conn):
 
 def sendData(conn, data):
     annotation = bytes(data, "utf-8")
+    print("")
     conn.sendall(annotation)
 
 def getArticleNum( conn , telnet):
@@ -43,14 +44,14 @@ def sendStatus(conn, data):
     return code
 
 def sendArticle(conn, article_num):
-    with open('../articles/article/' + str(article_num) + ".txt", 'r') as data:
+    with open('server/articles/article/' + str(article_num) + ".txt", 'r') as data:
         data = data.read()
 
     sendData(conn, data)
 
 
 def sendAnnotation( conn, article_num ):
-    with open('../articles/annotation/' + str(article_num) + ".json", 'r') as data:
+    with open('server/articles/annotation/' + str(article_num) + ".json", 'r') as data:
         data = data.read()
 
     sendData(conn, data)
@@ -58,42 +59,42 @@ def sendAnnotation( conn, article_num ):
 
 def sendTags(conn, tags):
     tags = str(tags)
-    print(tags)
     sendData(conn, tags)
 
 
 def readTags():
-    files = os.listdir("../articles/annotation")
+    files = os.listdir("server/articles/annotation")
     tags = []
 
-    with open('../data/tags.p', 'rb') as data:
+    with open('server/data/tags.p', 'rb') as data:
         if len(data.read()) > 0:
-            data = pickle.load(open('../data/tags.p', 'rb'))
+            data = pickle.load(open('server/data/tags.p', 'rb'))
 
     for i in files:
-        with open('../articles/annotation/' + i, 'r') as data:
+        with open('server/articles/annotation/' + i, 'r') as data:
             x = json.loads(data.read(), object_hook=lambda d: SimpleNamespace(**d))
             for j in x.tags:
                 if j not in tags:
                     tags.append(j)
 
 
-    pickle.dump(tags, open('../data/tags.p', 'wb'))
+    pickle.dump(tags, open('server/data/tags.p', 'wb'))
     return(tags)
 
 def getListOfTags( conn ):
     tags = conn.recv(1024).decode("utf-8")
+    print(tags)
     return tags
 
 
 def getIDList(tags):
-    files = os.listdir("../articles/annotation")
+    files = os.listdir("server/articles/annotation")
     id = []
 
-    data = pickle.load(open('../data/tags.p', 'rb'))
+    data = pickle.load(open('server/data/tags.p', 'rb'))
 
     for i in files:
-        with open('../articles/annotation/' + i, 'r') as data:
+        with open('server/articles/annotation/' + i, 'r') as data:
             x = json.loads(data.read(), object_hook=lambda d: SimpleNamespace(**d))
             for j in x.tags:
                 if j in tags:
@@ -102,7 +103,7 @@ def getIDList(tags):
     return(id)
 
 def sendArticleName(conn, id):
-    with open('../articles/annotation/' + str(id) + ".json", 'r') as data:
+    with open('server/articles/annotation/' + str(id) + ".json", 'r') as data:
         x = json.loads(data.read(), object_hook=lambda d: SimpleNamespace(**d))
         sendData(conn, x.title)
 
@@ -114,10 +115,10 @@ def sendArticlesByTag(conn, idList):
     return
 
 def findArticle(article_num):
-    files = os.listdir("../articles/annotation")
+    files = os.listdir("server/articles/annotation")
 
     for file in files:
-        with open('../articles/annotation/' + file, 'r') as data:
+        with open('server/articles/annotation/' + file, 'r') as data:
             x = json.loads(data.read(), object_hook=lambda d: SimpleNamespace(**d))
             if x.number == article_num:
                 return 200
@@ -125,7 +126,7 @@ def findArticle(article_num):
     return ""
 
 def checkAuth(conn, tags):
-    data = pickle.load(open('../data/auth.p', 'rb'))
+    data = pickle.load(open('server/data/auth.p', 'rb'))
 
     usrname = tags[:tags.find(':')]
     pwd = tags[tags.find(':') + 1:]
@@ -138,19 +139,13 @@ def checkAuth(conn, tags):
 
 def getAnnotation(sock):
     article = sock.recv(1024).decode("utf-8")
-    f = open("../articles/raw-article/test-1.json", "w")
+    f = open("server/articles/raw-article/test-1.json", "w")
     f.write(article)
     f.close()
-    #display(article)
 
 
 def getArticle(sock):
     article = sock.recv(1024).decode("utf-8")
-    f = open("../articles/raw-article/test-1.txt", "w")
+    f = open("server/articles/raw-article/test-1.txt", "w")
     f.write(article)
     f.close()
-    #display(article)
-
-
-def display(string):
-    print("\n" + string)
