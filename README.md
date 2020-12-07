@@ -1,1 +1,1 @@
-HELLO WORLD
+a minimalistic edit on NNTP protocol
