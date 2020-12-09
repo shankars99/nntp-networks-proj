@@ -1,1 +1,1 @@
-a minimalistic edit on NNTP protocol
+A minimalistic edit on NNTP protocol
